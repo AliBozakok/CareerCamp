@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\cartController;
 use App\Http\Controllers\categoryController;
 use App\Http\Controllers\productController;
 use App\Http\Controllers\userController;
+use App\Http\Controllers\userProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +33,7 @@ Route::apiResource('product', productController::class);
 
 Route::post('register', [userController::class,'register']);
 Route::post('login', [userController::class,'login']);
+
 Route::group([
 
     'middleware' => 'auth:user',
@@ -38,7 +41,10 @@ Route::group([
 
 ], function ($router) {
 
-
+    Route::apiResource('cart',cartController::class);
+    Route::put('remove', [cartController::class,'remove']);
+    Route::apiResource('userProduct',userProductController::class)->only(['index','show']);
+    Route::get('recentProduct', [userProductController::class,'recent']);
     Route::get('logout', [userController::class,'logout']);
     Route::get('me', [userController::class,'me']);
 

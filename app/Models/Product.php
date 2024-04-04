@@ -24,4 +24,9 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class,'categoryId','id');
     }
+
+    public function scopeGetActive()
+    {
+        return $this->where('quantityInStock','>=',1);
+    }
 }
